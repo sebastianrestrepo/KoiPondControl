@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
     //HOLA
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        System.out.println("App Iniciada");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         cc = ComunicacionCliente.getReference();
@@ -33,22 +34,21 @@ public class MainActivity extends AppCompatActivity implements Observer {
 
         conectar.setOnClickListener(new View.OnClickListener() {
 
-                                        @Override
-                                        public void onClick(View view) {
-                                            new Thread(cc).start();
-                                            System.out.println("Mi indice es: " + cc.getIndice());
-                                            Mensaje m = new Mensaje("nada", cc.getIndice());
-                                            cc.enviarMensaje(m);
-                                            conectar.setEnabled(false);
-                                        }
-                                    });
+            @Override
+            public void onClick(View view) {
+                System.out.println("Mi indice es: " + cc.getIndice());
+                Mensaje m = new Mensaje("nada", cc.getIndice());
+                cc.enviarMensaje(m);
+                conectar.setEnabled(false);
+            }
+        });
 
 
         botonArriba.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     System.out.println("DOWN");
                     Mensaje m = new Mensaje("arriba", cc.getIndice());
                     cc.enviarMensaje(m);
@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     System.out.println("DOWN");
                     Mensaje m = new Mensaje("derecha", cc.getIndice());
                     cc.enviarMensaje(m);
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     System.out.println("DOWN");
                     Mensaje m = new Mensaje("izquierda", cc.getIndice());
                     cc.enviarMensaje(m);
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements Observer {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     System.out.println("DOWN");
                     Mensaje m = new Mensaje("abajo", cc.getIndice());
                     cc.enviarMensaje(m);
@@ -119,7 +119,15 @@ public class MainActivity extends AppCompatActivity implements Observer {
 
     @Override
     public void update(Observable observable, Object o) {
-
+        if (observable instanceof ComunicacionCliente) {
+            if (o instanceof Mensaje) {
+                Mensaje mensaje = (Mensaje) o;
+              //  if(mensaje.getIndice() == 6){
+                    //mensaje.setIndice();
+               // }
+            }
+        }
+        //------FINAL UPDATE-------//
     }
 
     //----------FINAL DE LA CLASE--------//

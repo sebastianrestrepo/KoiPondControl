@@ -20,7 +20,7 @@ public class ComunicacionCliente extends Observable implements Runnable{
     private ObjectOutputStream salida;
     private boolean conectado;
     private int indice;
-    public static ComunicacionCliente ref;
+    private static ComunicacionCliente ref;
 
     public ComunicacionCliente(){
         conectado = false;
@@ -28,13 +28,14 @@ public class ComunicacionCliente extends Observable implements Runnable{
         Thread t = new Thread(this);
         t.start();
 */
-        indice = -1;
+        indice = 6;
 
     }
 
     public static ComunicacionCliente getReference() {
         if(ref == null){
             ref = new ComunicacionCliente();
+            new Thread(ref).start();
         }
         return ref;
     }
@@ -45,10 +46,12 @@ public class ComunicacionCliente extends Observable implements Runnable{
             if (s == null) {
 
                 try {
-                    s = new Socket(InetAddress.getByName("192.168.0.6"), 8080);
-                    System.out.println("Conectado");
+                    System.out.println("Conexión iniciada");
+                    s = new Socket(InetAddress.getByName("192.168.108.20"), 8080);
                     salida = new ObjectOutputStream(s.getOutputStream());
                     entrada = new ObjectInputStream(s.getInputStream());
+                    System.out.println("Flujos enlazados");
+                    conectado = true;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -68,12 +71,13 @@ public class ComunicacionCliente extends Observable implements Runnable{
     public void recibirMensaje(){
         try {
             Mensaje m = (Mensaje) entrada.readObject();
-            if(indice == -1){
+            if(indice == 6){
                 indice = m.getIndice();
                 System.out.println("Se agrega el indice: " +indice);
                 setChanged();
-                notifyObservers("Indice asignado: " +indice);
-            }
+                notifyObservers("Indice asignado: " + indice);
+                clearChanged();
+           }
             setChanged();
             notifyObservers(m);
             clearChanged();
@@ -94,9 +98,12 @@ public class ComunicacionCliente extends Observable implements Runnable{
 
                 try {
                     Mensaje m = (Mensaje) obj;
-                    if(s.isConnected()) {
-                        salida.writeObject(m);
-                        salida.flush();
+                    if(conectado) {
+                        if (s.isConnected()) {
+                            salida.writeObject(m);
+                            salida.flush();
+                            System.out.println("Mensaje enviado: " + m);
+                        }
                     }
                 } catch (IOException e) {
 
