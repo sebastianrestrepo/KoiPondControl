@@ -77,7 +77,7 @@ public class ComunicacionCliente extends Observable implements Runnable{
                 setChanged();
                 notifyObservers("Indice asignado: " + indice);
                 clearChanged();
-           }
+            }
             setChanged();
             notifyObservers(m);
             clearChanged();

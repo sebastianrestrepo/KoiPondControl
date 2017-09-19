@@ -122,9 +122,9 @@ public class MainActivity extends AppCompatActivity implements Observer {
         if (observable instanceof ComunicacionCliente) {
             if (o instanceof Mensaje) {
                 Mensaje mensaje = (Mensaje) o;
-              //  if(mensaje.getIndice() == 6){
-                    //mensaje.setIndice();
-               // }
+                //  if(mensaje.getIndice() == 6){
+                //mensaje.setIndice();
+                // }
             }
         }
         //------FINAL UPDATE-------//
