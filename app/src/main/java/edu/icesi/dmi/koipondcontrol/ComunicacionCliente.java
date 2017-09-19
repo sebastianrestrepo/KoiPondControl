@@ -47,7 +47,7 @@ public class ComunicacionCliente extends Observable implements Runnable{
 
                 try {
                     System.out.println("Conexión iniciada");
-                    s = new Socket(InetAddress.getByName("192.168.108.20"), 8080);
+                    s = new Socket(InetAddress.getByName("10.0.2.2"), 8080);
                     salida = new ObjectOutputStream(s.getOutputStream());
                     entrada = new ObjectInputStream(s.getInputStream());
                     System.out.println("Flujos enlazados");
