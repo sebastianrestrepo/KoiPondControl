@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity implements Observer {
     private ComunicacionCliente cc;
     private Button botonArriba, botonAbajo, botonIzquierda, botonDerecha, conectar;
 
-    //HOLA
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         System.out.println("App Iniciada");
@@ -32,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements Observer {
         botonDerecha = (Button) findViewById(R.id.botonDerecha);
         botonIzquierda = (Button) findViewById(R.id.botonIzquierda);
 
+
+        //Condiciones de los botones
         conectar.setOnClickListener(new View.OnClickListener() {
 
             @Override

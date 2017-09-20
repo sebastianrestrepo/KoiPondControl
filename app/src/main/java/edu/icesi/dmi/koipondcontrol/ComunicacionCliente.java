@@ -24,14 +24,11 @@ public class ComunicacionCliente extends Observable implements Runnable{
 
     public ComunicacionCliente(){
         conectado = false;
-/*
-        Thread t = new Thread(this);
-        t.start();
-*/
         indice = 6;
 
     }
 
+    //Uso de patrón Singleton para instanciar la ComunicacionCliente
     public static ComunicacionCliente getReference() {
         if(ref == null){
             ref = new ComunicacionCliente();
@@ -42,12 +39,13 @@ public class ComunicacionCliente extends Observable implements Runnable{
 
     @Override
     public void run() {
-        while (true) {
-            if (s == null) {
+
+            if (!conectado) {
 
                 try {
                     System.out.println("Conexión iniciada");
-                    s = new Socket(InetAddress.getByName("10.0.2.2"), 8080);
+                    //-----------Cambiar a IP correspondiente-----------//
+                    s = new Socket(InetAddress.getByName("192.168.0.12"), 5000);
                     salida = new ObjectOutputStream(s.getOutputStream());
                     entrada = new ObjectInputStream(s.getInputStream());
                     System.out.println("Flujos enlazados");
@@ -59,13 +57,15 @@ public class ComunicacionCliente extends Observable implements Runnable{
 
             while (true) {
                 try {
-                    recibirMensaje();
+                    if(s.isConnected()) {
+                        recibirMensaje();
+                    }
                     Thread.sleep(200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
-        }
+
     }
 
     public void recibirMensaje(){
@@ -84,7 +84,7 @@ public class ComunicacionCliente extends Observable implements Runnable{
 
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException e){
             e.printStackTrace();
         }
     }
